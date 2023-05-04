@@ -19,8 +19,15 @@ Arena :: struct {
     should_overwrite: bool = false;
 };
 
-arena_allocator_proc :: (mode: Allocator_Mode, size_to_be_allocated_or_resized: s64, old_size: s64, ptr_to_be_resized_or_freed: *void, proc_data: *void) -> *void {
-    arena := cast(*Arena) proc_data;
+// @TODO
+// Since the procedure uses some internal state to do its job, I think it might be fair
+// to swap the roles of `Arena_get` and `arena_allocator_proc` procedures, meaning that
+// I might want `arena_allocator_proc` to call `Arena_get`, while `Arena_get` would
+// handle both both allocations and reallocations to some reasonable extend. Also, this
+// would make it possible for us to use that `using` thing.
+//     ~ princessakokosowa, 4th of May 2023
+arena_allocator_proc :: (mode: Allocator_Mode, size_to_be_allocated_or_resized: s64, size_previous: s64, ptr_to_be_resized_or_freed: *void, impl: *void) -> *void {
+    arena := cast(*Arena) impl;
 
     if #complete mode == {
       case .FREE;

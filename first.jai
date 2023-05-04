@@ -14,6 +14,12 @@ main :: () {
     ARRAY_EXTENDED_COUNT :: 384;
     ARRAY_EXTENDED_SIZE  :: size_of(float) * ARRAY_EXTENDED_COUNT;
 
+    // @DISCLAIMER
+    // Absolutely NO ONE should use array view is a way shown below, but since I really
+    // intended to show of the implementation details, I've found array views to be the
+    // right thing for that.
+    //     ~ princessakokosowa, 4th of May 2023
+
     {
         ptr := Arena_get(*arena, ARRAY_SIZE);
 
