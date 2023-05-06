@@ -1,6 +1,6 @@
 main :: () {
     arena: Arena;
-    defer Arena_destroy(*arena);
+    defer free_buffers(*arena);
 
     {
         arena_type_info := type_info(type_of(arena));
@@ -21,7 +21,7 @@ main :: () {
     //     ~ princessakokosowa, 4th of May 2023
 
     {
-        ptr := Arena_get(*arena, ARRAY_SIZE);
+        ptr := get(*arena, ARRAY_SIZE);
 
         array: [] float;
         array.count = ARRAY_COUNT;
@@ -34,7 +34,7 @@ main :: () {
         print("Using arena itself: %\n", array);
     }
 
-    arena_allocator := Arena_allocator(*arena);
+    arena_allocator := make_allocator(*arena);
 
     {
         ptr := alloc(ARRAY_SIZE, arena_allocator);

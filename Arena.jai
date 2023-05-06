@@ -104,7 +104,7 @@ arena_allocator_proc :: (mode: Allocator_Mode, size_to_be_allocated_or_resized: 
     }
 }
 
-Arena_destroy :: (arena: *Arena) {
+free_buffers :: (arena: *Arena) {
     if arena.ptr free(arena.ptr);
 
     << arena = Arena.{};
@@ -114,11 +114,11 @@ Arena_destroy :: (arena: *Arena) {
     arena.should_overwrite = false;
 }
 
-Arena_get :: (arena: *Arena, size_to_be_allocated: int) -> *void {
+get :: (arena: *Arena, size_to_be_allocated: int) -> *void {
     return arena_allocator_proc(Allocator_Mode.ALLOCATE, size_to_be_allocated, 0, null, cast(*void) arena);
 }
 
-Arena_allocator :: (arena: *Arena) -> Allocator {
+make_allocator :: (arena: *Arena) -> Allocator {
     return .{
         proc = arena_allocator_proc,
         data = arena,
